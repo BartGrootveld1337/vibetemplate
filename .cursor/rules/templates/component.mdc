@@ -1,0 +1,95 @@
+---
+description: Template for creating React components
+globs: ["src/components/**/*.tsx"]
+---
+
+# React Component Template
+
+Use this template when creating new React components:
+
+```tsx
+import { cn } from '@/lib/utils'
+
+interface ComponentNameProps {
+  // Add props here
+  className?: string
+  children?: React.ReactNode
+}
+
+export function ComponentName({ className, children }: ComponentNameProps) {
+  return (
+    <div className={cn('', className)}>
+      {children}
+    </div>
+  )
+}
+```
+
+## With forwardRef (for components that need ref access)
+
+```tsx
+import { forwardRef } from 'react'
+
+import { cn } from '@/lib/utils'
+
+interface ComponentNameProps extends React.HTMLAttributes<HTMLDivElement> {
+  // Add custom props here
+}
+
+export const ComponentName = forwardRef<HTMLDivElement, ComponentNameProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn('', className)}
+        {...props}
+      />
+    )
+  }
+)
+ComponentName.displayName = 'ComponentName'
+```
+
+## Client Component (with hooks/interactivity)
+
+```tsx
+'use client'
+
+import { useState } from 'react'
+
+import { cn } from '@/lib/utils'
+
+interface ComponentNameProps {
+  initialValue?: string
+  onChange?: (value: string) => void
+  className?: string
+}
+
+export function ComponentName({
+  initialValue = '',
+  onChange,
+  className,
+}: ComponentNameProps) {
+  const [value, setValue] = useState(initialValue)
+
+  const handleChange = (newValue: string) => {
+    setValue(newValue)
+    onChange?.(newValue)
+  }
+
+  return (
+    <div className={cn('', className)}>
+      {/* Component content */}
+    </div>
+  )
+}
+```
+
+## Guidelines
+
+1. **Props Interface**: Always define a TypeScript interface for props
+2. **className prop**: Accept className for styling flexibility
+3. **cn() utility**: Use for conditional class merging
+4. **Named exports**: Use named exports, not default
+5. **File location**: Place in `/src/components/shared/` for project components
+6. **'use client'**: Only add if using hooks, event handlers, or browser APIs

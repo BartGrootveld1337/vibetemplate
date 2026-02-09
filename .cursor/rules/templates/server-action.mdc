@@ -1,0 +1,138 @@
+---
+description: Template for creating Next.js Server Actions
+globs: ["src/app/**/actions.ts", "src/actions/**/*.ts"]
+---
+
+# Server Action Template
+
+Use this template when creating server actions for mutations:
+
+## Basic Server Action
+
+```tsx
+'use server'
+
+import { revalidatePath } from 'next/cache'
+
+import { createClient } from '@/lib/supabase/server'
+
+export async function createItem(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, error: 'Unauthorized' }
+  }
+
+  const name = formData.get('name') as string
+
+  if (!name) {
+    return { success: false, error: 'Name is required' }
+  }
+
+  const { data, error } = await supabase
+    .from('items')
+    .insert({ name, user_id: user.id })
+    .select()
+    .single()
+
+  if (error) {
+    return { success: false, error: error.message }
+  }
+
+  revalidatePath('/dashboard')
+  return { success: true, data }
+}
+```
+
+## With Typed Input (Recommended)
+
+```tsx
+'use server'
+
+import { revalidatePath } from 'next/cache'
+
+import { createClient } from '@/lib/supabase/server'
+import type { ActionResult } from '@/types'
+
+interface CreateItemInput {
+  name: string
+  description?: string
+}
+
+export async function createItem(
+  input: CreateItemInput
+): Promise<ActionResult<{ id: string }>> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, error: 'Unauthorized' }
+  }
+
+  // Validate input
+  if (!input.name || input.name.trim().length === 0) {
+    return { success: false, error: 'Name is required' }
+  }
+
+  const { data, error } = await supabase
+    .from('items')
+    .insert({
+      name: input.name.trim(),
+      description: input.description?.trim(),
+      user_id: user.id,
+    })
+    .select('id')
+    .single()
+
+  if (error) {
+    console.error('Create item error:', error)
+    return { success: false, error: 'Failed to create item' }
+  }
+
+  revalidatePath('/dashboard')
+  return { success: true, data: { id: data.id } }
+}
+```
+
+## Usage in Client Component
+
+```tsx
+'use client'
+
+import { useTransition } from 'react'
+import { createItem } from './actions'
+
+export function CreateItemForm() {
+  const [isPending, startTransition] = useTransition()
+
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      const result = await createItem(formData)
+      if (result.success) {
+        // Handle success
+      } else {
+        // Handle error
+      }
+    })
+  }
+
+  return (
+    <form action={handleSubmit}>
+      <input name="name" required />
+      <button type="submit" disabled={isPending}>
+        {isPending ? 'Creating...' : 'Create'}
+      </button>
+    </form>
+  )
+}
+```
+
+## Guidelines
+
+1. **Always use 'use server'** at the top of the file
+2. **Check authentication** before processing
+3. **Validate all input** — never trust client data
+4. **Return typed results** — use ActionResult type
+5. **Revalidate paths** after successful mutations
+6. **Log errors** but return user-friendly messages

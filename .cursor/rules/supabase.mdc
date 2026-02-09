@@ -1,0 +1,129 @@
+---
+description: Supabase integration patterns and best practices
+globs: ["**/supabase/**", "**/*supabase*", "**/lib/supabase/**"]
+---
+
+# Supabase Rules
+
+## Client Selection
+
+### Browser (Client Components)
+```tsx
+import { createClient } from '@/lib/supabase/client'
+
+function MyClientComponent() {
+  const supabase = createClient()
+  // use supabase...
+}
+```
+
+### Server (Server Components, Route Handlers, Server Actions)
+```tsx
+import { createClient } from '@/lib/supabase/server'
+
+async function MyServerComponent() {
+  const supabase = await createClient()
+  // use supabase...
+}
+```
+
+### Admin Operations (bypass RLS)
+```tsx
+import { createAdminClient } from '@/lib/supabase/server'
+
+// Only use when you need to bypass RLS
+const supabase = await createAdminClient()
+```
+
+## Authentication
+
+### Check User
+```tsx
+const { data: { user } } = await supabase.auth.getUser()
+
+if (!user) {
+  redirect('/login')
+}
+```
+
+### Sign In
+```tsx
+const { data, error } = await supabase.auth.signInWithPassword({
+  email,
+  password,
+})
+```
+
+### Sign Out
+```tsx
+await supabase.auth.signOut()
+```
+
+## Database Queries
+
+### Select
+```tsx
+const { data, error } = await supabase
+  .from('table_name')
+  .select('*')
+  .eq('user_id', user.id)
+  .order('created_at', { ascending: false })
+
+if (error) throw error
+```
+
+### Insert
+```tsx
+const { data, error } = await supabase
+  .from('table_name')
+  .insert({ column: 'value' })
+  .select()
+  .single()
+```
+
+### Update
+```tsx
+const { data, error } = await supabase
+  .from('table_name')
+  .update({ column: 'new_value' })
+  .eq('id', id)
+  .select()
+  .single()
+```
+
+### Delete
+```tsx
+const { error } = await supabase
+  .from('table_name')
+  .delete()
+  .eq('id', id)
+```
+
+## Row Level Security (RLS)
+
+Always enable RLS on new tables:
+```sql
+alter table public.table_name enable row level security;
+```
+
+Common policies:
+```sql
+-- Users can only access their own data
+create policy "Users can CRUD own data"
+  on public.table_name for all
+  using (auth.uid() = user_id);
+
+-- Public read, authenticated write
+create policy "Public read"
+  on public.table_name for select
+  using (true);
+```
+
+## Best Practices
+
+1. **NEVER** expose service role key to client
+2. **ALWAYS** enable RLS on tables
+3. **ALWAYS** handle errors from Supabase calls
+4. Use TypeScript types from generated types file
+5. Use server client for server-side operations
+6. Regenerate types after schema changes: `pnpm supabase:types`

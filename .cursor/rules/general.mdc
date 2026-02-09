@@ -1,0 +1,37 @@
+---
+description: General coding rules for this project
+globs: ["**/*.ts", "**/*.tsx"]
+---
+
+# General Rules
+
+## Code Style
+- Use TypeScript strict mode - no `any` types allowed
+- Prefer named exports over default exports (except for pages)
+- Use arrow functions for components and handlers
+- Keep functions small and focused (max 50 lines)
+- Write self-documenting code, minimize comments
+
+## Naming Conventions
+- Files: kebab-case (e.g., `user-profile.tsx`)
+- Components: PascalCase (e.g., `UserProfile`)
+- Functions/Variables: camelCase (e.g., `getUserData`)
+- Constants: SCREAMING_SNAKE_CASE (e.g., `MAX_RETRIES`)
+- Types/Interfaces: PascalCase (e.g., `UserProfile`)
+
+## Imports
+- Use absolute imports with `@/` prefix
+- Group imports: external → internal → types → styles
+- Remove unused imports
+
+## Error Handling
+- Always handle errors explicitly
+- Never swallow errors silently
+- Use try/catch for async operations
+- Return typed error responses
+
+## Performance
+- Prefer Server Components by default
+- Use `'use client'` only when necessary
+- Lazy load heavy components
+- Optimize images with next/image

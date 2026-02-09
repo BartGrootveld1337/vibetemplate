@@ -1,0 +1,91 @@
+---
+description: Next.js specific patterns and best practices
+globs: ["src/app/**/*.ts", "src/app/**/*.tsx"]
+---
+
+# Next.js Rules
+
+## Server Components (Default)
+- Components in `/app` are Server Components by default
+- Fetch data directly in the component using async/await
+- Access cookies/headers via `next/headers`
+- Use server actions for mutations
+
+```tsx
+// Good: Server Component with data fetching
+export default async function Page() {
+  const data = await getData()
+  return <div>{data}</div>
+}
+```
+
+## Client Components
+- Add `'use client'` directive at the very top
+- Keep client components as small as possible
+- Pass server data as props when possible
+- Use for: event handlers, hooks, browser APIs
+
+```tsx
+'use client'
+
+import { useState } from 'react'
+
+export function Counter() {
+  const [count, setCount] = useState(0)
+  return <button onClick={() => setCount(c => c + 1)}>{count}</button>
+}
+```
+
+## API Routes
+- Export named HTTP method handlers (GET, POST, PUT, DELETE)
+- Always validate input
+- Return proper status codes
+- Use NextResponse for responses
+
+```tsx
+import { NextResponse } from 'next/server'
+
+export async function GET() {
+  return NextResponse.json({ data: 'value' })
+}
+
+export async function POST(request: Request) {
+  const body = await request.json()
+  // validate body
+  return NextResponse.json({ success: true }, { status: 201 })
+}
+```
+
+## Server Actions
+- Define with `'use server'` directive
+- Can be inline or in separate files
+- Revalidate cache after mutations
+- Return typed responses
+
+```tsx
+'use server'
+
+import { revalidatePath } from 'next/cache'
+
+export async function updateUser(formData: FormData) {
+  // update database
+  revalidatePath('/dashboard')
+  return { success: true }
+}
+```
+
+## Metadata
+- Always add metadata to pages for SEO
+- Use generateMetadata for dynamic metadata
+
+```tsx
+export const metadata = {
+  title: 'Page Title',
+  description: 'Page description',
+}
+```
+
+## Loading & Error States
+- Use loading.tsx for loading states
+- Use error.tsx for error boundaries
+- Use not-found.tsx for 404 pages
