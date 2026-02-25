@@ -70,14 +70,14 @@ function LoginContent() {
             ⚡
           </Link>
           <h1 className="text-2xl font-bold">Welcome back</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             Sign in to your account to continue
           </p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+          <div className="border-destructive/50 bg-destructive/10 text-destructive mb-4 rounded-lg border p-3 text-sm">
             {error}
           </div>
         )}
@@ -87,7 +87,7 @@ function LoginContent() {
           <button
             type="button"
             onClick={() => handleOAuthLogin('google')}
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border bg-background text-sm font-medium transition-colors hover:bg-accent"
+            className="bg-background hover:bg-accent flex h-11 w-full items-center justify-center gap-2 rounded-lg border text-sm font-medium transition-colors"
           >
             <GoogleIcon />
             Continue with Google
@@ -95,7 +95,7 @@ function LoginContent() {
           <button
             type="button"
             onClick={() => handleOAuthLogin('github')}
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border bg-background text-sm font-medium transition-colors hover:bg-accent"
+            className="bg-background hover:bg-accent flex h-11 w-full items-center justify-center gap-2 rounded-lg border text-sm font-medium transition-colors"
           >
             <GitHubIcon />
             Continue with GitHub
@@ -108,7 +108,7 @@ function LoginContent() {
             <div className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
+            <span className="bg-background text-muted-foreground px-2">
               Or continue with email
             </span>
           </div>
@@ -127,7 +127,7 @@ function LoginContent() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               required
-              className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="bg-background focus:border-ring focus:ring-ring/20 h-11 w-full rounded-lg border px-3 text-sm transition-colors outline-none focus:ring-2"
             />
           </div>
           <div>
@@ -144,20 +144,20 @@ function LoginContent() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="bg-background focus:border-ring focus:ring-ring/20 h-11 w-full rounded-lg border px-3 text-sm transition-colors outline-none focus:ring-2"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="h-11 w-full rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 w-full rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
 
         {/* Footer */}
-        <p className="mt-6 text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-6 text-center text-sm">
           Don&apos;t have an account?{' '}
           <Link href="/signup" className="font-medium hover:underline">
             Sign up

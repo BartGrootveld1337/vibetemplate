@@ -15,20 +15,21 @@ pnpm dev            # Start development server at http://localhost:3000
 
 ## Common Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start dev server with Turbopack |
-| `pnpm build` | Build for production |
-| `pnpm test` | Run unit tests |
-| `pnpm lint` | Run ESLint |
-| `pnpm typecheck` | Run TypeScript type checking |
-| `make db-new name=xyz` | Create new database migration |
-| `make db-push` | Push migrations to Supabase |
-| `pnpm supabase:types` | Regenerate database types |
+| Command                | Description                     |
+| ---------------------- | ------------------------------- |
+| `pnpm dev`             | Start dev server with Turbopack |
+| `pnpm build`           | Build for production            |
+| `pnpm test`            | Run unit tests                  |
+| `pnpm lint`            | Run ESLint                      |
+| `pnpm typecheck`       | Run TypeScript type checking    |
+| `make db-new name=xyz` | Create new database migration   |
+| `make db-push`         | Push migrations to Supabase     |
+| `pnpm supabase:types`  | Regenerate database types       |
 
 ## Architecture
 
 ### Stack
+
 - **Framework**: Next.js 16 with App Router
 - **Database**: Supabase (PostgreSQL + Auth + Storage)
 - **Styling**: Tailwind CSS 4
@@ -75,12 +76,14 @@ supabase/
 ## Code Conventions
 
 ### General
+
 - TypeScript strict mode — no `any` types
 - Functional components with arrow functions
 - Named exports (no default exports except pages/layouts)
 - File naming: kebab-case for files, PascalCase for components
 
 ### Imports
+
 ```typescript
 // Order: external → internal → types → styles
 import { useState } from 'react'
@@ -93,6 +96,7 @@ import type { Profile } from '@/types'
 ```
 
 ### Styling
+
 - Tailwind CSS utility classes
 - Use `cn()` helper for conditional classes
 - Mobile-first responsive design
@@ -100,6 +104,7 @@ import type { Profile } from '@/types'
 ## Supabase Patterns
 
 ### Client Selection
+
 ```typescript
 // Browser (client components)
 import { createClient } from '@/lib/supabase/client'
@@ -111,12 +116,16 @@ const supabase = await createClient()
 ```
 
 ### Auth Check
+
 ```typescript
-const { data: { user } } = await supabase.auth.getUser()
+const {
+  data: { user },
+} = await supabase.auth.getUser()
 if (!user) redirect('/login')
 ```
 
 ### Database Queries
+
 ```typescript
 // Select
 const { data, error } = await supabase
@@ -142,23 +151,28 @@ const { data, error } = await supabase
 ## Common Tasks
 
 ### Add a New Page
+
 1. Create `src/app/[route]/page.tsx`
 2. Export default async function
 3. Add metadata for SEO:
+
 ```typescript
 export const metadata = { title: 'Page Title' }
 ```
 
 ### Add a Protected Page
+
 1. Create in `src/app/(dashboard)/[route]/page.tsx`
 2. Middleware automatically protects routes in this group
 
 ### Add an API Route
+
 1. Create `src/app/api/[name]/route.ts`
 2. Export GET/POST/PUT/DELETE handlers
 3. Always check auth and validate input
 
 ### Add a Database Table
+
 1. `make db-new name=create_table_name`
 2. Edit the migration file in `supabase/migrations/`
 3. Enable RLS and add policies
@@ -166,6 +180,7 @@ export const metadata = { title: 'Page Title' }
 5. `pnpm supabase:types` to regenerate types
 
 ### Add a Component
+
 - shadcn/ui: `pnpm dlx shadcn@latest add [component]`
 - Custom: Create in `src/components/shared/`
 
@@ -182,6 +197,7 @@ Tests must pass before committing.
 ## Environment Variables
 
 Required in `.env.local`:
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=xxx
@@ -200,6 +216,7 @@ SUPABASE_SERVICE_ROLE_KEY=xxx
 ## Additional Context
 
 For more detailed patterns, see:
+
 - `.cursor/rules/` — Cursor-specific rules and templates
 - `docs/AUTH_SETUP.md` — OAuth provider configuration
 - `docs/DEPLOYMENT.md` — Deployment guides

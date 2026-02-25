@@ -80,6 +80,7 @@ make db-reset             # Reset local database
 ### After Schema Changes
 
 Always regenerate TypeScript types:
+
 ```bash
 pnpm supabase:types
 ```
@@ -132,10 +133,9 @@ Deno.serve(async (req) => {
 
   // Your logic here
 
-  return new Response(
-    JSON.stringify({ success: true }),
-    { headers: { 'Content-Type': 'application/json' } }
-  )
+  return new Response(JSON.stringify({ success: true }), {
+    headers: { 'Content-Type': 'application/json' },
+  })
 })
 ```
 

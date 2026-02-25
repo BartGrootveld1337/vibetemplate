@@ -6,7 +6,6 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 export default function SignUpPage() {
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -71,13 +70,13 @@ export default function SignUpPage() {
         <div className="w-full max-w-sm text-center">
           <div className="mb-4 text-4xl">📧</div>
           <h1 className="mb-2 text-2xl font-bold">Check your email</h1>
-          <p className="mb-6 text-muted-foreground">
+          <p className="text-muted-foreground mb-6">
             We&apos;ve sent a confirmation link to{' '}
             <span className="font-medium">{email}</span>
           </p>
           <Link
             href="/login"
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-primary text-sm font-medium hover:underline"
           >
             Back to sign in
           </Link>
@@ -95,14 +94,14 @@ export default function SignUpPage() {
             ⚡
           </Link>
           <h1 className="text-2xl font-bold">Create an account</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             Get started with your free account
           </p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+          <div className="border-destructive/50 bg-destructive/10 text-destructive mb-4 rounded-lg border p-3 text-sm">
             {error}
           </div>
         )}
@@ -112,7 +111,7 @@ export default function SignUpPage() {
           <button
             type="button"
             onClick={() => handleOAuthSignUp('google')}
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border bg-background text-sm font-medium transition-colors hover:bg-accent"
+            className="bg-background hover:bg-accent flex h-11 w-full items-center justify-center gap-2 rounded-lg border text-sm font-medium transition-colors"
           >
             <GoogleIcon />
             Continue with Google
@@ -120,7 +119,7 @@ export default function SignUpPage() {
           <button
             type="button"
             onClick={() => handleOAuthSignUp('github')}
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border bg-background text-sm font-medium transition-colors hover:bg-accent"
+            className="bg-background hover:bg-accent flex h-11 w-full items-center justify-center gap-2 rounded-lg border text-sm font-medium transition-colors"
           >
             <GitHubIcon />
             Continue with GitHub
@@ -133,7 +132,7 @@ export default function SignUpPage() {
             <div className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
+            <span className="bg-background text-muted-foreground px-2">
               Or continue with email
             </span>
           </div>
@@ -152,7 +151,7 @@ export default function SignUpPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               required
-              className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="bg-background focus:border-ring focus:ring-ring/20 h-11 w-full rounded-lg border px-3 text-sm transition-colors outline-none focus:ring-2"
             />
           </div>
           <div>
@@ -170,7 +169,7 @@ export default function SignUpPage() {
               placeholder="••••••••"
               required
               minLength={8}
-              className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="bg-background focus:border-ring focus:ring-ring/20 h-11 w-full rounded-lg border px-3 text-sm transition-colors outline-none focus:ring-2"
             />
           </div>
           <div>
@@ -188,20 +187,20 @@ export default function SignUpPage() {
               placeholder="••••••••"
               required
               minLength={8}
-              className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none transition-colors focus:border-ring focus:ring-2 focus:ring-ring/20"
+              className="bg-background focus:border-ring focus:ring-ring/20 h-11 w-full rounded-lg border px-3 text-sm transition-colors outline-none focus:ring-2"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="h-11 w-full rounded-lg bg-primary text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 h-11 w-full rounded-lg text-sm font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? 'Creating account...' : 'Create account'}
           </button>
         </form>
 
         {/* Footer */}
-        <p className="mt-6 text-center text-sm text-muted-foreground">
+        <p className="text-muted-foreground mt-6 text-center text-sm">
           Already have an account?{' '}
           <Link href="/login" className="font-medium hover:underline">
             Sign in

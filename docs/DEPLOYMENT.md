@@ -9,6 +9,7 @@ Vercel is the creator of Next.js and provides the best deployment experience.
 ### Steps
 
 1. **Push to GitHub**
+
    ```bash
    git add .
    git commit -m "Initial commit"
@@ -22,6 +23,7 @@ Vercel is the creator of Next.js and provides the best deployment experience.
 
 3. **Configure Environment Variables**
    Add these in Vercel's project settings:
+
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
@@ -119,6 +121,7 @@ docker run -p 3000:3000 --env-file .env.local my-app
 Before deploying to production:
 
 1. **Apply migrations**
+
    ```bash
    make db-push
    # or
@@ -143,16 +146,19 @@ Before deploying to production:
 ## Environment-Specific Configuration
 
 ### Development
+
 ```env
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 ### Preview/Staging
+
 ```env
 NEXT_PUBLIC_APP_URL=https://staging.your-domain.com
 ```
 
 ### Production
+
 ```env
 NEXT_PUBLIC_APP_URL=https://your-domain.com
 ```
@@ -163,9 +169,10 @@ NEXT_PUBLIC_APP_URL=https://your-domain.com
 
 1. Enable in Vercel project settings
 2. Add to layout:
+
    ```tsx
    import { Analytics } from '@vercel/analytics/react'
-   
+
    export default function RootLayout({ children }) {
      return (
        <html>
