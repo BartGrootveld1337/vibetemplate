@@ -25,7 +25,7 @@ export default async function HomePage() {
 
         {/* Description */}
         <p className="mb-8 text-lg text-muted-foreground">
-          Next.js 15 + Supabase full-stack template optimized for AI-assisted
+          Next.js 16 + Supabase full-stack template optimized for AI-assisted
           development. Start building your app in seconds.
         </p>
 

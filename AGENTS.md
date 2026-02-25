@@ -51,7 +51,9 @@ src/
 ├── lib/
 │   ├── supabase/          # Supabase client configuration
 │   │   ├── client.ts      # Browser client
-│   │   ├── server.ts      # Server client
+│   │   ├── server.ts      # Server client (+ admin client)
+│   │   ├── middleware.ts   # Session refresh helper
+│   │   ├── index.ts       # Barrel exports
 │   │   └── types.ts       # Generated database types
 │   └── utils.ts           # Utility functions
 ├── hooks/                 # Custom React hooks

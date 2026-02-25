@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: '%s | Vibe Coding Template',
   },
   description:
-    'Next.js 15 + Supabase full-stack template optimized for AI-assisted development',
+    'Next.js 16 + Supabase full-stack template optimized for AI-assisted development',
   keywords: ['Next.js', 'Supabase', 'TypeScript', 'Tailwind CSS', 'Template'],
   authors: [{ name: 'Your Name' }],
   creator: 'Your Name',

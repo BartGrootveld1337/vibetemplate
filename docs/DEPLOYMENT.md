@@ -69,7 +69,7 @@ Note: You may need `@netlify/plugin-nextjs` for full Next.js support.
 ### Dockerfile
 
 ```dockerfile
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
